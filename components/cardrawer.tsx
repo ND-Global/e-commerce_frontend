@@ -182,13 +182,15 @@ export const CartDrawer: React.FC = () => {
           ) : (
             cart.map((item) => (
               <div key={item.id} id={`cart-item-${item.id}`} className="py-4 first:pt-0 last:pb-0 flex space-x-3.5">
-                {/* Product Thumbnail */}
-                <div 
-                  className="w-20 h-24 bg-[#EFECE6] rounded-lg overflow-hidden flex-shrink-0 cursor-pointer"
-                  onClick={() => {
-                    setCartDrawerOpen(false);
-                    navigate(`/product/${item.product.slug}`);
-                  }}
+              {/* Product Thumbnail */}
+<div
+  className="w-20 h-24 bg-[#EFECE6] rounded-lg overflow-hidden flex-shrink-0 cursor-pointer"
+  onClick={() => {
+    setCartDrawerOpen(false);
+    navigate(`/product/${item.product.slug}`);
+  }}
+>
+  
                 >
                   <img
                     src={getImageUrl(item.product.images?.[0])}
