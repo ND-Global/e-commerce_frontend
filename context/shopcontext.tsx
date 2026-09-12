@@ -213,14 +213,18 @@ export const ShopProvider: React.FC<{ children: ReactNode }> = ({
     };
   }, []);
 
-  const navigate = (path: string) => {
-    if (typeof window !== 'undefined') {
-      window.history.pushState({}, '', path);
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth',
-      });
-    }
+const navigate = (path: string) => {
+  if (typeof window === 'undefined') return;
+
+  window.history.pushState({}, '', path);
+
+  setCurrentPath(path);
+
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth',
+  });
+};
 
     setCurrentPath(path);
   };
