@@ -634,5 +634,5 @@ const handlePlaceOrder = async (e: React.FormEvent) => {
 
     </div>
   );
-};}
+};
 export default CheckoutPage;
