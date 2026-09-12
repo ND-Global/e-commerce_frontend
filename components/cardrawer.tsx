@@ -14,7 +14,26 @@ import {
 } from 'lucide-react';
 import { useShop } from '../context/shopcontext';
 import { SITE_CONFIG } from '../config/site'
+const API_URL =
+  process.env.NEXT_PUBLIC_API_URL ||
+  'http://localhost:7000/api';
 
+const BACKEND_URL = API_URL.replace(/\/api\/?$/, '');
+
+const getImageUrl = (image?: string) => {
+  if (!image) return '';
+
+  if (
+    image.startsWith('http://') ||
+    image.startsWith('https://')
+  ) {
+    return image;
+  }
+
+  const cleanImage = image.replace(/^\/+/, '');
+
+  return `${BACKEND_URL}/${cleanImage}`;
+};
 export const CartDrawer: React.FC = () => {
   const { 
     cartDrawerOpen, 
@@ -172,11 +191,10 @@ export const CartDrawer: React.FC = () => {
                   }}
                 >
                   <img
-                    src={item.product.images[0]}
+                    src={getImageUrl(item.product.images?.[0])}
                     alt={item.product.name}
                     referrerPolicy="no-referrer"
                     className="w-full h-full object-cover object-center hover:scale-105 transition-transform"
-                  />
                 </div>
 
                 {/* Details */}
