@@ -28,37 +28,55 @@ interface ShopContextType {
   products: Product[];
   getProductBySlug: (slug: string) => Product | undefined;
   getProductById: (id: string) => Product | undefined;
-  addProduct: (product: Omit<Product, 'id'>) => Promise<Product | null>;
+
+  addProduct: (
+    product: Omit<Product, 'id'>
+  ) => Promise<Product | null>;
+
   addNewProduct: (
-  product: Omit<Product, 'id' | 'images'>,
-  files: File[]
-) => Promise<boolean>;
-  updateProduct: (id: string, product: Partial<Product>) => Promise<void>;
-  updateProductStock: (id: string, newStock: number) => Promise<void>;
-  deleteProduct: (id: string) => Promise<void>;
+    product: Omit<Product, 'id' | 'images'>,
+    files: File[]
+  ) => Promise<boolean>;
+
+  updateProduct: (
+    id: string,
+    product: Partial<Product>,
+    imageFiles?: File[]
+  ) => Promise<Product | null>;
+
+  updateProductStock: (
+    id: string,
+    newStock: number
+  ) => Promise<void>;
+
+  deleteProduct: (
+    id: string
+  ) => Promise<void>;
+
   addReviewToProduct: (
     productId: string,
     review: Omit<Review, 'id' | 'date'>
   ) => Promise<void>;
 
   cart: CartItem[];
-addToCart: (
-  product: Product,
-  size: string,
-  color: ProductColor,
-  quantity?: number
-) => Promise<boolean>;
 
-removeFromCart: (
-  cartItemId: string
-) => Promise<void>;
+  addToCart: (
+    product: Product,
+    size: string,
+    color: ProductColor,
+    quantity?: number
+  ) => Promise<boolean>;
 
-updateCartQuantity: (
-  cartItemId: string,
-  quantity: number
-) => Promise<void>;
+  removeFromCart: (
+    cartItemId: string
+  ) => Promise<void>;
 
-clearCart: () => Promise<void>;
+  updateCartQuantity: (
+    cartItemId: string,
+    quantity: number
+  ) => Promise<void>;
+
+  clearCart: () => Promise<void>;
 
   subtotal: number;
   cartSubtotal: number;
@@ -70,84 +88,162 @@ clearCart: () => Promise<void>;
   totalCartItems: number;
 
   appliedCoupon: Coupon | null;
-  applyCoupon: (code: string) => Promise<boolean | { success: boolean; message: string }>;
+
+  applyCoupon: (
+    code: string
+  ) => Promise<boolean | { success: boolean; message: string }>;
+
   removeCoupon: () => void;
+
   coupons: Coupon[];
-  addCoupon: (coupon: Coupon) => Promise<void>;
-  addNewCoupon: (coupon: Coupon) => Promise<void>;
-  toggleCouponStatus: (code: string) => Promise<void>;
+
+  addCoupon: (
+    coupon: Coupon
+  ) => Promise<void>;
+
+  addNewCoupon: (
+    coupon: Coupon
+  ) => Promise<void>;
+
+  toggleCouponStatus: (
+    code: string
+  ) => Promise<void>;
 
   wishlist: string[];
-  isInWishlist: (productId: string) => boolean;
-  toggleWishlist: (productId: string) => void;
-  removeFromWishlist: (productId: string) => void;
-moveToCartFromWishlist: (
-  product: Product,
-  size?: string,
-  color?: ProductColor
-) => Promise<void>;
+
+  isInWishlist: (
+    productId: string
+  ) => boolean;
+
+  toggleWishlist: (
+    productId: string
+  ) => void;
+
+  removeFromWishlist: (
+    productId: string
+  ) => void;
+
+  moveToCartFromWishlist: (
+    product: Product,
+    size?: string,
+    color?: ProductColor
+  ) => Promise<void>;
 
   orders: Order[];
-  createOrder: (orderData: {
-    customerName: string;
-    customerEmail: string;
-    customerPhone: string;
-    shippingAddress: Address;
-    paymentMethod: any;
-  }) => Promise<Order | null>;
+
+  createOrder: (
+    orderData: {
+      customerName: string;
+      customerEmail: string;
+      customerPhone: string;
+      shippingAddress: Address;
+      paymentMethod: any;
+    }
+  ) => Promise<Order | null>;
+
   placeOrder: (
     shippingAddress: Address,
     paymentMethod: any
   ) => Promise<Order | null>;
+
   updateOrderStatus: (
     orderId: string,
     status: OrderStatus
   ) => Promise<void>;
-  getOrderById: (orderId: string) => Order | undefined;
+
+  getOrderById: (
+    orderId: string
+  ) => Order | undefined;
+
   lastCreatedOrder: Order | null;
 
   user: User | null;
   currentUser: User | null;
   isAuthenticated: boolean;
-  login: (email: string, password?: string) => Promise<boolean>;
+
+  login: (
+    email: string,
+    password?: string
+  ) => Promise<boolean>;
+
   signup: (
     name: string,
     email: string,
     password?: string,
     phone?: string
   ) => Promise<boolean>;
+
   logout: () => void;
-  updateUserProfile: (user: Partial<User>) => Promise<void>;
-  addSavedAddress: (address: Address) => Promise<void>;
-  removeSavedAddress: (index: number) => Promise<void>;
+
+  updateUserProfile: (
+    user: Partial<User>
+  ) => Promise<void>;
+
+  addSavedAddress: (
+    address: Address
+  ) => Promise<void>;
+
+  removeSavedAddress: (
+    index: number
+  ) => Promise<void>;
 
   toasts: ToastMessage[];
+
   addToast: (
     title: string,
     message?: string,
     type?: 'success' | 'error' | 'info'
   ) => void;
-  removeToast: (id: string) => void;
+
+  removeToast: (
+    id: string
+  ) => void;
 
   quickViewProduct: Product | null;
-  setQuickViewProduct: (product: Product | null) => void;
+
+  setQuickViewProduct: (
+    product: Product | null
+  ) => void;
+
   sizeGuideOpen: boolean;
-  setSizeGuideOpen: (open: boolean) => void;
+
+  setSizeGuideOpen: (
+    open: boolean
+  ) => void;
+
   cartDrawerOpen: boolean;
-  setCartDrawerOpen: (open: boolean) => void;
+
+  setCartDrawerOpen: (
+    open: boolean
+  ) => void;
+
   searchModalOpen: boolean;
-  setSearchModalOpen: (open: boolean) => void;
+
+  setSearchModalOpen: (
+    open: boolean
+  ) => void;
+
   mobileMenuOpen: boolean;
-  setMobileMenuOpen: (open: boolean) => void;
+
+  setMobileMenuOpen: (
+    open: boolean
+  ) => void;
 
   currentPath: string;
-  navigate: (path: string) => void;
+
+  navigate: (
+    path: string
+  ) => void;
 }
 
-const ShopContext = createContext<ShopContextType | undefined>(undefined);
+const ShopContext =
+  createContext<ShopContextType | undefined>(
+    undefined
+  );
 
 const API_URL =
-  process.env.NEXT_PUBLIC_API_URL || 'http://localhost:7000/api';
+  process.env.NEXT_PUBLIC_API_URL ||
+  'http://localhost:7000/api';
 
 const apiFetch = async <T = any>(
   endpoint: string,
@@ -158,26 +254,37 @@ const apiFetch = async <T = any>(
       ? localStorage.getItem('token')
       : null;
 
-  const isFormData = options.body instanceof FormData;
+  const isFormData =
+    options.body instanceof FormData;
 
-  const response = await fetch(`${API_URL}${endpoint}`, {
-    ...options,
-    headers: {
-      ...(isFormData
-        ? {}
-        : {
-            'Content-Type': 'application/json',
-          }),
-      ...(token
-        ? {
-            Authorization: `Bearer ${token}`,
-          }
-        : {}),
-      ...(options.headers || {}),
-    },
-  });
+  const response = await fetch(
+    `${API_URL}${endpoint}`,
+    {
+      ...options,
 
-  const data = await response.json().catch(() => ({}));
+      headers: {
+        ...(isFormData
+          ? {}
+          : {
+              'Content-Type':
+                'application/json',
+            }),
+
+        ...(token
+          ? {
+              Authorization: `Bearer ${token}`,
+            }
+          : {}),
+
+        ...(options.headers || {}),
+      },
+    }
+  );
+
+  const data =
+    await response
+      .json()
+      .catch(() => ({}));
 
   if (!response.ok) {
     throw new Error(
@@ -190,55 +297,77 @@ const apiFetch = async <T = any>(
   return data;
 };
 
-export const ShopProvider: React.FC<{ children: ReactNode }> = ({
-  children,
-}) => {
+export const ShopProvider: React.FC<{
+  children: ReactNode;
+}> = ({ children }) => {
   // --------------------------------------------------
   // Navigation
   // --------------------------------------------------
 
-  const [currentPath, setCurrentPath] = useState('/');
+  const [currentPath, setCurrentPath] =
+    useState('/');
 
   useEffect(() => {
-    setCurrentPath(window.location.pathname || '/');
+    if (typeof window === 'undefined') {
+      return;
+    }
+
+    setCurrentPath(
+      window.location.pathname || '/'
+    );
 
     const handlePopState = () => {
-      setCurrentPath(window.location.pathname || '/');
+      setCurrentPath(
+        window.location.pathname || '/'
+      );
     };
 
-    window.addEventListener('popstate', handlePopState);
+    window.addEventListener(
+      'popstate',
+      handlePopState
+    );
 
     return () => {
-      window.removeEventListener('popstate', handlePopState);
+      window.removeEventListener(
+        'popstate',
+        handlePopState
+      );
     };
   }, []);
 
-const navigate = (path: string) => {
-  if (typeof window === 'undefined') return;
+  const navigate = (path: string) => {
+    if (typeof window === 'undefined') {
+      return;
+    }
 
-  window.history.pushState({}, '', path);
-
-  setCurrentPath(path);
-
-  window.scrollTo({
-    top: 0,
-    behavior: 'smooth',
-  });
-};
+    window.history.pushState(
+      {},
+      '',
+      path
+    );
 
     setCurrentPath(path);
+
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
   };
 
   // --------------------------------------------------
   // Toast
   // --------------------------------------------------
 
-  const [toasts, setToasts] = useState<ToastMessage[]>([]);
+  const [toasts, setToasts] =
+    useState<ToastMessage[]>([]);
 
   const addToast = (
     title: string,
     message?: string,
-    type: 'success' | 'error' | 'info' = 'success'
+    type:
+      | 'success'
+      | 'error'
+      | 'info' = 'success'
   ) => {
     const id = Math.random()
       .toString(36)
@@ -251,18 +380,27 @@ const navigate = (path: string) => {
       type,
     };
 
-    setToasts((prev) => [...prev, newToast]);
+    setToasts((prev) => [
+      ...prev,
+      newToast,
+    ]);
 
     setTimeout(() => {
       setToasts((prev) =>
-        prev.filter((toast) => toast.id !== id)
+        prev.filter(
+          (toast) => toast.id !== id
+        )
       );
     }, 4000);
   };
 
-  const removeToast = (id: string) => {
+  const removeToast = (
+    id: string
+  ) => {
     setToasts((prev) =>
-      prev.filter((toast) => toast.id !== id)
+      prev.filter(
+        (toast) => toast.id !== id
+      )
     );
   };
 
@@ -270,21 +408,30 @@ const navigate = (path: string) => {
   // Products
   // --------------------------------------------------
 
-  const [products, setProducts] = useState<Product[]>([]);
+  const [products, setProducts] =
+    useState<Product[]>([]);
 
   useEffect(() => {
     const loadProducts = async () => {
       try {
-        const response: any = await apiFetch('/products');
+        const response: any =
+          await apiFetch('/products');
 
         const data =
           response?.products ||
           response?.data ||
           response;
 
-        setProducts(Array.isArray(data) ? data : []);
+        setProducts(
+          Array.isArray(data)
+            ? data
+            : []
+        );
       } catch (error) {
-        console.error('Products loading error:', error);
+        console.error(
+          'Products loading error:',
+          error
+        );
 
         addToast(
           'Products Error',
@@ -297,7 +444,9 @@ const navigate = (path: string) => {
     loadProducts();
   }, []);
 
-  const getProductBySlug = (slug: string) => {
+  const getProductBySlug = (
+    slug: string
+  ) => {
     return products.find(
       (product) =>
         product.slug === slug ||
@@ -305,9 +454,12 @@ const navigate = (path: string) => {
     );
   };
 
-  const getProductById = (id: string) => {
+  const getProductById = (
+    id: string
+  ) => {
     return products.find(
-      (product) => product.id === id
+      (product) =>
+        product.id === id
     );
   };
 
@@ -315,13 +467,16 @@ const navigate = (path: string) => {
     productData: Omit<Product, 'id'>
   ): Promise<Product | null> => {
     try {
-      const response: any = await apiFetch(
-        '/products',
-        {
-          method: 'POST',
-          body: JSON.stringify(productData),
-        }
-      );
+      const response: any =
+        await apiFetch(
+          '/products',
+          {
+            method: 'POST',
+            body: JSON.stringify(
+              productData
+            ),
+          }
+        );
 
       const product =
         response?.product ||
@@ -342,7 +497,8 @@ const navigate = (path: string) => {
     } catch (error: any) {
       addToast(
         'Product Error',
-        error.message || 'Unable to create product.',
+        error.message ||
+          'Unable to create product.',
         'error'
       );
 
@@ -351,81 +507,64 @@ const navigate = (path: string) => {
   };
 
   const updateProduct = async (
-  id: string,
-  updatedFields: Partial<Product>,
-  imageFiles?: File[]
-) => {
-  try {
-    const formData = new FormData();
-
-    Object.entries(updatedFields).forEach(([key, value]) => {
-      if (value === undefined || value === null) return;
-
-      if (
-        ['details', 'sizes', 'colors'].includes(key) &&
-        typeof value !== 'string'
-      ) {
-        formData.append(key, JSON.stringify(value));
-      } else {
-        formData.append(key, String(value));
-      }
-    });
-
-    imageFiles?.forEach((file) => {
-      formData.append('images', file);
-    });
-
-    const response: any = await apiFetch(
-      `/products/${id}`,
-      {
-        method: 'PUT',
-        body: formData,
-      }
-    );
-
-    const updatedProduct =
-      response?.product ||
-      response?.data ||
-      response;
-
-    setProducts((prev) =>
-      prev.map((product) =>
-        product.id === id
-          ? updatedProduct
-          : product
-      )
-    );
-
-    addToast(
-      'Product Updated',
-      'Changes saved successfully.'
-    );
-
-    return updatedProduct;
-  } catch (error: any) {
-    addToast(
-      'Update Failed',
-      error.message || 'Unable to update product.',
-      'error'
-    );
-
-    return null;
-  }
-};
-  const updateProductStock = async (
     id: string,
-    newStock: number
+    updatedFields: Partial<Product>,
+    imageFiles?: File[]
   ) => {
     try {
-      const response: any = await apiFetch(
-        `/products/${id}/stock`,
-        {
-          method: 'PATCH',
-          body: JSON.stringify({
-            stock: newStock,
-          }),
+      const formData =
+        new FormData();
+
+      Object.entries(
+        updatedFields
+      ).forEach(
+        ([key, value]) => {
+          if (
+            value === undefined ||
+            value === null
+          ) {
+            return;
+          }
+
+          if (
+            [
+              'details',
+              'sizes',
+              'colors',
+            ].includes(key) &&
+            typeof value !==
+              'string'
+          ) {
+            formData.append(
+              key,
+              JSON.stringify(value)
+            );
+          } else {
+            formData.append(
+              key,
+              String(value)
+            );
+          }
         }
       );
+
+      imageFiles?.forEach(
+        (file) => {
+          formData.append(
+            'images',
+            file
+          );
+        }
+      );
+
+      const response: any =
+        await apiFetch(
+          `/products/${id}`,
+          {
+            method: 'PUT',
+            body: formData,
+          }
+        );
 
       const updatedProduct =
         response?.product ||
@@ -435,36 +574,93 @@ const navigate = (path: string) => {
       setProducts((prev) =>
         prev.map((product) =>
           product.id === id
-            ? {
-                ...product,
-                ...updatedProduct,
-                stock: newStock,
-              }
+            ? updatedProduct
             : product
         )
       );
 
       addToast(
-        'Stock Adjusted',
-        `Inventory updated to ${newStock} units.`
+        'Product Updated',
+        'Changes saved successfully.'
       );
+
+      return updatedProduct;
     } catch (error: any) {
       addToast(
-        'Stock Update Failed',
-        error.message || 'Unable to update stock.',
+        'Update Failed',
+        error.message ||
+          'Unable to update product.',
         'error'
       );
+
+      return null;
     }
   };
 
-  const deleteProduct = async (id: string) => {
+  const updateProductStock =
+    async (
+      id: string,
+      newStock: number
+    ) => {
+      try {
+        const response: any =
+          await apiFetch(
+            `/products/${id}/stock`,
+            {
+              method: 'PATCH',
+              body: JSON.stringify({
+                stock: newStock,
+              }),
+            }
+          );
+
+        const updatedProduct =
+          response?.product ||
+          response?.data ||
+          response;
+
+        setProducts((prev) =>
+          prev.map((product) =>
+            product.id === id
+              ? {
+                  ...product,
+                  ...updatedProduct,
+                  stock: newStock,
+                }
+              : product
+          )
+        );
+
+        addToast(
+          'Stock Adjusted',
+          `Inventory updated to ${newStock} units.`
+        );
+      } catch (error: any) {
+        addToast(
+          'Stock Update Failed',
+          error.message ||
+            'Unable to update stock.',
+          'error'
+        );
+      }
+    };
+
+  const deleteProduct = async (
+    id: string
+  ) => {
     try {
-      await apiFetch(`/products/${id}`, {
-        method: 'DELETE',
-      });
+      await apiFetch(
+        `/products/${id}`,
+        {
+          method: 'DELETE',
+        }
+      );
 
       setProducts((prev) =>
-        prev.filter((product) => product.id !== id)
+        prev.filter(
+          (product) =>
+            product.id !== id
+        )
       );
 
       addToast(
@@ -475,677 +671,852 @@ const navigate = (path: string) => {
     } catch (error: any) {
       addToast(
         'Delete Failed',
-        error.message || 'Unable to delete product.',
+        error.message ||
+          'Unable to delete product.',
         'error'
       );
     }
   };
 
-  const addReviewToProduct = async (
-    productId: string,
-    reviewData: Omit<Review, 'id' | 'date'>
-  ) => {
+  const addReviewToProduct =
+    async (
+      productId: string,
+      reviewData: Omit<
+        Review,
+        'id' | 'date'
+      >
+    ) => {
+      try {
+        await apiFetch(
+          `/products/${productId}/reviews`,
+          {
+            method: 'POST',
+            body: JSON.stringify(
+              reviewData
+            ),
+          }
+        );
+
+        const response: any =
+          await apiFetch(
+            `/products/${productId}`
+          );
+
+        const updatedProduct =
+          response?.product ||
+          response?.data ||
+          response;
+
+        setProducts((prev) =>
+          prev.map((product) =>
+            product.id === productId
+              ? updatedProduct
+              : product
+          )
+        );
+
+        addToast(
+          'Review Submitted',
+          'Thank you for sharing your experience!'
+        );
+      } catch (error: any) {
+        addToast(
+          'Review Failed',
+          error.message ||
+            'Unable to submit review.',
+          'error'
+        );
+      }
+    };
+
+  const addNewProduct = async (
+    productData: Omit<
+      Product,
+      'id' | 'images'
+    >,
+    files: File[]
+  ): Promise<boolean> => {
     try {
-      await apiFetch(
-        `/products/${productId}/reviews`,
-        {
-          method: 'POST',
-          body: JSON.stringify(reviewData),
-        }
+      if (!files.length) {
+        throw new Error(
+          'At least one product image is required.'
+        );
+      }
+
+      const formData =
+        new FormData();
+
+      formData.append(
+        'name',
+        productData.name
       );
 
-      const response: any = await apiFetch(
-        `/products/${productId}`
+      formData.append(
+        'slug',
+        productData.slug || ''
       );
 
-      const updatedProduct =
+      formData.append(
+        'category',
+        productData.category
+      );
+
+      formData.append(
+        'gender',
+        productData.gender
+      );
+
+      formData.append(
+        'price',
+        String(productData.price)
+      );
+
+      formData.append(
+        'originalPrice',
+        String(
+          productData.originalPrice
+        )
+      );
+
+      formData.append(
+        'discount',
+        String(
+          productData.discount
+        )
+      );
+
+      formData.append(
+        'description',
+        productData.description
+      );
+
+      formData.append(
+        'stock',
+        String(productData.stock)
+      );
+
+      formData.append(
+        'sku',
+        productData.sku
+      );
+
+      formData.append(
+        'sizes',
+        JSON.stringify(
+          productData.sizes || []
+        )
+      );
+
+      formData.append(
+        'colors',
+        JSON.stringify(
+          productData.colors || []
+        )
+      );
+
+      if (productData.details) {
+        formData.append(
+          'details',
+          JSON.stringify(
+            productData.details
+          )
+        );
+      }
+
+      if (
+        productData.rating !==
+        undefined
+      ) {
+        formData.append(
+          'rating',
+          String(
+            productData.rating
+          )
+        );
+      }
+
+      if (
+        productData.reviewsCount !==
+        undefined
+      ) {
+        formData.append(
+          'reviewsCount',
+          String(
+            productData.reviewsCount
+          )
+        );
+      }
+
+      if (
+        productData.isNewArrival !==
+        undefined
+      ) {
+        formData.append(
+          'isNewArrival',
+          String(
+            productData.isNewArrival
+          )
+        );
+      }
+
+      if (
+        productData.isTrending !==
+        undefined
+      ) {
+        formData.append(
+          'isTrending',
+          String(
+            productData.isTrending
+          )
+        );
+      }
+
+      if (
+        productData.isSale !==
+        undefined
+      ) {
+        formData.append(
+          'isSale',
+          String(
+            productData.isSale
+          )
+        );
+      }
+
+      if (productData.material) {
+        formData.append(
+          'material',
+          productData.material
+        );
+      }
+
+      if (productData.fit) {
+        formData.append(
+          'fit',
+          productData.fit
+        );
+      }
+
+      if (
+        productData.careInstructions
+      ) {
+        formData.append(
+          'careInstructions',
+          productData.careInstructions
+        );
+      }
+
+      files
+        .slice(0, 8)
+        .forEach((file) => {
+          formData.append(
+            'images',
+            file
+          );
+        });
+
+      const response: any =
+        await apiFetch(
+          '/products',
+          {
+            method: 'POST',
+            body: formData,
+          }
+        );
+
+      const createdProduct =
         response?.product ||
         response?.data ||
         response;
 
-      setProducts((prev) =>
-        prev.map((product) =>
-          product.id === productId
-            ? updatedProduct
-            : product
-        )
-      );
+      setProducts((prev) => [
+        createdProduct,
+        ...prev,
+      ]);
 
       addToast(
-        'Review Submitted',
-        'Thank you for sharing your experience!'
+        'Product Added',
+        'Product and images uploaded successfully.'
       );
+
+      return true;
     } catch (error: any) {
       addToast(
-        'Review Failed',
-        error.message || 'Unable to submit review.',
+        'Product Creation Failed',
+        error.message ||
+          'Unable to create product.',
         'error'
       );
+
+      return false;
     }
   };
 
- const addNewProduct = async (
-  productData: Omit<Product, 'id' | 'images'>,
-  files: File[]
-): Promise<boolean> => {
-  try {
-    if (!files.length) {
-      throw new Error('At least one product image is required.');
-    }
+  // --------------------------------------------------
+  // Cart
+  // --------------------------------------------------
 
-    const formData = new FormData();
+  const [currentUser, setCurrentUser] =
+    useState<User | null>(null);
 
-    formData.append('name', productData.name);
-    formData.append('slug', productData.slug || '');
-    formData.append('category', productData.category);
-    formData.append('gender', productData.gender);
-    formData.append('price', String(productData.price));
-    formData.append(
-      'originalPrice',
-      String(productData.originalPrice)
-    );
-    formData.append(
-      'discount',
-      String(productData.discount)
-    );
-    formData.append(
-      'description',
-      productData.description
-    );
-    formData.append('stock', String(productData.stock));
-    formData.append('sku', productData.sku);
+  const [cart, setCart] =
+    useState<CartItem[]>([]);
 
-    formData.append(
-      'sizes',
-      JSON.stringify(productData.sizes || [])
-    );
+  const [cartLoading, setCartLoading] =
+    useState(false);
 
-    formData.append(
-      'colors',
-      JSON.stringify(productData.colors || [])
-    );
+  const mapBackendCart = (
+    backendCart: any
+  ): CartItem[] => {
+    const items =
+      Array.isArray(
+        backendCart?.items
+      )
+        ? backendCart.items
+        : [];
 
-    if (productData.details) {
-      formData.append(
-        'details',
-        JSON.stringify(productData.details)
-      );
-    }
+    return items
+      .map((item: any) => {
+        const productData =
+          item.productId;
 
-    if (productData.rating !== undefined) {
-      formData.append(
-        'rating',
-        String(productData.rating)
-      );
-    }
+        if (!productData) {
+          return null;
+        }
 
-    if (productData.reviewsCount !== undefined) {
-      formData.append(
-        'reviewsCount',
-        String(productData.reviewsCount)
-      );
-    }
+        const product: Product = {
+          ...productData,
 
-    if (productData.isNewArrival !== undefined) {
-      formData.append(
-        'isNewArrival',
-        String(productData.isNewArrival)
-      );
-    }
-
-    if (productData.isTrending !== undefined) {
-      formData.append(
-        'isTrending',
-        String(productData.isTrending)
-      );
-    }
-
-    if (productData.isSale !== undefined) {
-      formData.append(
-        'isSale',
-        String(productData.isSale)
-      );
-    }
-
-    if (productData.material) {
-      formData.append(
-        'material',
-        productData.material
-      );
-    }
-
-    if (productData.fit) {
-      formData.append('fit', productData.fit);
-    }
-
-    if (productData.careInstructions) {
-      formData.append(
-        'careInstructions',
-        productData.careInstructions
-      );
-    }
-
-    files.slice(0, 8).forEach((file) => {
-      formData.append('images', file);
-    });
-
-    const response: any = await apiFetch('/products', {
-      method: 'POST',
-      body: formData,
-    });
-
-    const createdProduct =
-      response?.product ||
-      response?.data ||
-      response;
-
-    setProducts((prev) => [
-      createdProduct,
-      ...prev,
-    ]);
-
-    addToast(
-      'Product Added',
-      'Product and images uploaded successfully.'
-    );
-
-    return true;
-  } catch (error: any) {
-    addToast(
-      'Product Creation Failed',
-      error.message ||
-        'Unable to create product.',
-      'error'
-    );
-
-    return false;
-  }
-};
-
- // --------------------------------------------------
-// Cart
-// --------------------------------------------------
-const [currentUser, setCurrentUser] = useState<User | null>(null);
-const [cart, setCart] = useState<CartItem[]>([]);
-const [cartLoading, setCartLoading] = useState(false);
-
-const mapBackendCart = (backendCart: any): CartItem[] => {
-  const items = Array.isArray(backendCart?.items)
-    ? backendCart.items
-    : [];
-
-  return items
-    .map((item: any) => {
-      const productData = item.productId;
-
-      if (!productData) {
-        return null;
-      }
-
-      const product: Product = {
-        ...productData,
-        id:
-          productData.id ||
-          productData._id ||
-          item.productId?._id,
-      };
-
-      const size = item.size || '';
-      const color =
-        item.color || {
-          name: 'Default',
-          hex: '#000000',
+          id:
+            productData.id ||
+            productData._id ||
+            item.productId?._id,
         };
 
-      return {
-        id:
-          item.id ||
-          item._id ||
-          `${product.id}-${size}-${color.name}`,
+        const size =
+          item.size || '';
 
-        productId: product.id,
+        const color =
+          item.color || {
+            name: 'Default',
+            hex: '#000000',
+          };
 
-        product,
+        return {
+          id:
+            item.id ||
+            item._id ||
+            `${product.id}-${size}-${color.name}`,
 
-        size,
+          productId: product.id,
 
-        selectedSize: size,
+          product,
 
-        color,
+          size,
 
-        selectedColor: color,
+          selectedSize: size,
 
-        quantity: Number(item.quantity || 1),
-      };
-    })
-    .filter(Boolean) as CartItem[];
-};
+          color,
 
-// Load cart from backend after login / token is available
-useEffect(() => {
-  const loadCart = async () => {
+          selectedColor: color,
+
+          quantity: Number(
+            item.quantity || 1
+          ),
+        };
+      })
+      .filter(Boolean) as CartItem[];
+  };
+
+  useEffect(() => {
+    const loadCart = async () => {
+      const token =
+        typeof window !== 'undefined'
+          ? localStorage.getItem(
+              'token'
+            )
+          : null;
+
+      if (!token) {
+        setCart([]);
+        return;
+      }
+
+      setCartLoading(true);
+
+      try {
+        const response: any =
+          await apiFetch('/cart');
+
+        const backendCart =
+          response?.cart ||
+          response?.data ||
+          response;
+
+        setCart(
+          mapBackendCart(
+            backendCart
+          )
+        );
+      } catch (error: any) {
+        console.error(
+          'Cart loading error:',
+          error
+        );
+
+        setCart([]);
+      } finally {
+        setCartLoading(false);
+      }
+    };
+
+    loadCart();
+  }, [currentUser]);
+
+  const addToCart = async (
+    product: Product,
+    size: string,
+    color: ProductColor,
+    quantity = 1
+  ): Promise<boolean> => {
     const token =
       typeof window !== 'undefined'
-        ? localStorage.getItem('token')
+        ? localStorage.getItem(
+            'token'
+          )
         : null;
 
     if (!token) {
-      setCart([]);
-      return;
+      addToast(
+        'Login Required',
+        'Please login before adding products to your cart.',
+        'error'
+      );
+
+      navigate('/login');
+
+      return false;
     }
 
-    setCartLoading(true);
+    if (quantity < 1) {
+      return false;
+    }
+
+    if (quantity > product.stock) {
+      addToast(
+        'Stock Limit Reached',
+        `Only ${product.stock} units available in stock.`,
+        'error'
+      );
+
+      return false;
+    }
 
     try {
       const response: any =
-        await apiFetch('/cart');
+        await apiFetch(
+          '/cart/items',
+          {
+            method: 'POST',
+            body: JSON.stringify({
+              productId:
+                product.id,
+              size,
+              color,
+              quantity,
+            }),
+          }
+        );
 
       const backendCart =
         response?.cart ||
         response?.data ||
         response;
 
-      setCart(mapBackendCart(backendCart));
-    } catch (error: any) {
-      console.error(
-        'Cart loading error:',
-        error
+      setCart(
+        mapBackendCart(
+          backendCart
+        )
       );
 
-      // Don't show annoying error for empty/new cart
-      if (
-        !error?.message
-          ?.toLowerCase()
-          ?.includes('cart')
-      ) {
-        console.error(error);
-      }
+      addToast(
+        'Added to Bag',
+        `${quantity}x ${product.name} (${size} · ${color.name}) added.`
+      );
 
-      setCart([]);
-    } finally {
-      setCartLoading(false);
+      return true;
+    } catch (error: any) {
+      addToast(
+        'Cart Error',
+        error.message ||
+          'Unable to add product to cart.',
+        'error'
+      );
+
+      return false;
     }
   };
 
-  loadCart();
-}, [currentUser]);
+  const removeFromCart =
+    async (
+      cartItemId: string
+    ) => {
+      try {
+        const response: any =
+          await apiFetch(
+            `/cart/items/${cartItemId}`,
+            {
+              method: 'DELETE',
+            }
+          );
 
-const addToCart = async (
-  product: Product,
-  size: string,
-  color: ProductColor,
-  quantity = 1
-): Promise<boolean> => {
-  const token =
-    typeof window !== 'undefined'
-      ? localStorage.getItem('token')
-      : null;
+        const backendCart =
+          response?.cart ||
+          response?.data ||
+          response;
 
-  if (!token) {
-    addToast(
-      'Login Required',
-      'Please login before adding products to your cart.',
-      'error'
-    );
+        setCart(
+          mapBackendCart(
+            backendCart
+          )
+        );
 
-    navigate('/login');
-    return false;
-  }
+        addToast(
+          'Item Removed',
+          'Item removed from your shopping bag.',
+          'info'
+        );
+      } catch (error: any) {
+        addToast(
+          'Remove Failed',
+          error.message ||
+            'Unable to remove item from cart.',
+          'error'
+        );
+      }
+    };
 
-  if (quantity < 1) {
-    return false;
-  }
+  const updateCartQuantity =
+    async (
+      cartItemId: string,
+      newQty: number
+    ) => {
+      if (newQty <= 0) {
+        await removeFromCart(
+          cartItemId
+        );
 
-  if (quantity > product.stock) {
-    addToast(
-      'Stock Limit Reached',
-      `Only ${product.stock} units available in stock.`,
-      'error'
-    );
+        return;
+      }
 
-    return false;
-  }
+      const item = cart.find(
+        (cartItem) =>
+          cartItem.id ===
+          cartItemId
+      );
 
-  try {
-    const response: any =
-      await apiFetch('/cart/items', {
-        method: 'POST',
-        body: JSON.stringify({
-          productId: product.id,
-          size,
-          color,
-          quantity,
-        }),
-      });
+      if (!item) {
+        return;
+      }
 
-    const backendCart =
-      response?.cart ||
-      response?.data ||
-      response;
+      if (
+        newQty >
+        item.product.stock
+      ) {
+        addToast(
+          'Stock Limit',
+          `Maximum available is ${item.product.stock}`,
+          'error'
+        );
 
-    setCart(mapBackendCart(backendCart));
+        return;
+      }
 
-    addToast(
-      'Added to Bag',
-      `${quantity}x ${product.name} (${size} · ${color.name}) added.`
-    );
+      try {
+        const response: any =
+          await apiFetch(
+            `/cart/items/${cartItemId}`,
+            {
+              method: 'PATCH',
+              body: JSON.stringify({
+                quantity: newQty,
+              }),
+            }
+          );
 
-    return true;
-  } catch (error: any) {
-    addToast(
-      'Cart Error',
-      error.message ||
-        'Unable to add product to cart.',
-      'error'
-    );
+        const backendCart =
+          response?.cart ||
+          response?.data ||
+          response;
 
-    return false;
-  }
-};
+        setCart(
+          mapBackendCart(
+            backendCart
+          )
+        );
+      } catch (error: any) {
+        addToast(
+          'Quantity Update Failed',
+          error.message ||
+            'Unable to update cart quantity.',
+          'error'
+        );
+      }
+    };
 
-const removeFromCart = async (
-  cartItemId: string
-) => {
-  try {
-    const response: any =
+  const clearCart = async () => {
+    try {
       await apiFetch(
-        `/cart/items/${cartItemId}`,
+        '/cart',
         {
           method: 'DELETE',
         }
       );
 
-    const backendCart =
-      response?.cart ||
-      response?.data ||
-      response;
+      setCart([]);
 
-    setCart(mapBackendCart(backendCart));
+      setAppliedCoupon(null);
 
-    addToast(
-      'Item Removed',
-      'Item removed from your shopping bag.',
-      'info'
+      addToast(
+        'Cart Cleared',
+        'All items have been removed from your cart.',
+        'info'
+      );
+    } catch (error: any) {
+      addToast(
+        'Clear Cart Failed',
+        error.message ||
+          'Unable to clear your cart.',
+        'error'
+      );
+    }
+  };
+
+  const subtotal = useMemo(() => {
+    return cart.reduce(
+      (sum, item) =>
+        sum +
+        Number(
+          item.product.price
+        ) *
+          item.quantity,
+      0
     );
-  } catch (error: any) {
-    addToast(
-      'Remove Failed',
-      error.message ||
-        'Unable to remove item from cart.',
-      'error'
-    );
-  }
-};
+  }, [cart]);
 
-const updateCartQuantity = async (
-  cartItemId: string,
-  newQty: number
-) => {
-  if (newQty <= 0) {
-    await removeFromCart(cartItemId);
-    return;
-  }
+  // --------------------------------------------------
+  // Coupon Calculation
+  // --------------------------------------------------
 
-  const item = cart.find(
-    (cartItem) =>
-      cartItem.id === cartItemId
+  const [
+    appliedCoupon,
+    setAppliedCoupon,
+  ] = useState<Coupon | null>(
+    null
   );
 
-  if (!item) {
-    return;
-  }
+  const discountAmount =
+    useMemo(() => {
+      if (!appliedCoupon) {
+        return 0;
+      }
 
-  if (newQty > item.product.stock) {
-    addToast(
-      'Stock Limit',
-      `Maximum available is ${item.product.stock}`,
-      'error'
+      const percentage =
+        Number(
+          appliedCoupon.discountPercentage ??
+            appliedCoupon.discountPercent ??
+            0
+        );
+
+      return (
+        (subtotal *
+          percentage) /
+        100
+      );
+    }, [
+      subtotal,
+      appliedCoupon,
+    ]);
+
+  const shippingFee =
+    useMemo(() => {
+      if (cart.length === 0) {
+        return 0;
+      }
+
+      return subtotal >=
+        SITE_CONFIG.shipping
+          .freeShippingThreshold
+        ? 0
+        : SITE_CONFIG.shipping
+            .standardShippingFee;
+    }, [
+      subtotal,
+      cart.length,
+    ]);
+
+  const total = useMemo(() => {
+    return Math.max(
+      0,
+      subtotal -
+        discountAmount +
+        shippingFee
     );
+  }, [
+    subtotal,
+    discountAmount,
+    shippingFee,
+  ]);
 
-    return;
-  }
+  const totalCartItems =
+    useMemo(() => {
+      return cart.reduce(
+        (sum, item) =>
+          sum + item.quantity,
+        0
+      );
+    }, [cart]);
 
-  try {
-    const response: any =
-      await apiFetch(
-        `/cart/items/${cartItemId}`,
-        {
-          method: 'PATCH',
-          body: JSON.stringify({
-            quantity: newQty,
-          }),
-        }
+  // --------------------------------------------------
+  // Coupons
+  // --------------------------------------------------
+
+  const [coupons, setCoupons] =
+    useState<Coupon[]>([]);
+
+  const applyCoupon = async (
+    code: string
+  ): Promise<boolean> => {
+    try {
+      const response: any =
+        await apiFetch(
+          '/coupons/validate',
+          {
+            method: 'POST',
+            body: JSON.stringify({
+              code: code
+                .trim()
+                .toUpperCase(),
+              cartTotal: subtotal,
+            }),
+          }
+        );
+
+      const coupon =
+        response?.coupon ||
+        response?.data ||
+        response;
+
+      setAppliedCoupon(
+        coupon
       );
 
-    const backendCart =
-      response?.cart ||
-      response?.data ||
-      response;
+      const percentage =
+        Number(
+          coupon.discountPercentage ??
+            coupon.discountPercent ??
+            0
+        );
 
-    setCart(mapBackendCart(backendCart));
-  } catch (error: any) {
-    addToast(
-      'Quantity Update Failed',
-      error.message ||
-        'Unable to update cart quantity.',
-      'error'
-    );
-  }
-};
+      addToast(
+        'Coupon Applied',
+        `${percentage}% discount applied to your order!`
+      );
 
-const clearCart = async () => {
-  try {
-    await apiFetch('/cart', {
-      method: 'DELETE',
-    });
+      return true;
+    } catch (error: any) {
+      addToast(
+        'Invalid Coupon',
+        error.message ||
+          'Coupon is not valid.',
+        'error'
+      );
 
-    setCart([]);
+      return false;
+    }
+  };
+
+  const removeCoupon = () => {
     setAppliedCoupon(null);
 
     addToast(
-      'Cart Cleared',
-      'All items have been removed from your cart.',
+      'Coupon Removed',
+      'Coupon discount has been removed.',
       'info'
     );
-  } catch (error: any) {
-    addToast(
-      'Clear Cart Failed',
-      error.message ||
-        'Unable to clear your cart.',
-      'error'
-    );
-  }
-};
+  };
 
-const subtotal = useMemo(() => {
-  return cart.reduce(
-    (sum, item) =>
-      sum +
-      Number(item.product.price) *
-        item.quantity,
-    0
-  );
-}, [cart]);
+  const addCoupon = async (
+    coupon: Coupon
+  ) => {
+    try {
+      const response: any =
+        await apiFetch(
+          '/coupons',
+          {
+            method: 'POST',
+            body: JSON.stringify(
+              coupon
+            ),
+          }
+        );
 
-// --------------------------------------------------
-// Coupon Calculation
-// --------------------------------------------------
+      const createdCoupon =
+        response?.coupon ||
+        response?.data ||
+        response;
 
-const [appliedCoupon, setAppliedCoupon] =
-  useState<Coupon | null>(null);
+      setCoupons((prev) => [
+        ...prev,
+        createdCoupon,
+      ]);
 
-const discountAmount = useMemo(() => {
-  if (!appliedCoupon) {
-    return 0;
-  }
+      addToast(
+        'Coupon Created',
+        `Code ${createdCoupon.code} is now active.`
+      );
+    } catch (error: any) {
+      addToast(
+        'Coupon Error',
+        error.message ||
+          'Unable to create coupon.',
+        'error'
+      );
+    }
+  };
 
-  const percentage = Number(
-    appliedCoupon.discountPercentage ??
-      appliedCoupon.discountPercent ??
-      0
-  );
+  const toggleCouponStatus =
+    async (
+      code: string
+    ) => {
+      try {
+        await apiFetch(
+          `/coupons/${code}/toggle`,
+          {
+            method: 'PATCH',
+          }
+        );
 
-  return (subtotal * percentage) / 100;
-}, [subtotal, appliedCoupon]);
-
-const shippingFee = useMemo(() => {
-  if (cart.length === 0) {
-    return 0;
-  }
-
-  return subtotal >=
-    SITE_CONFIG.shipping.freeShippingThreshold
-    ? 0
-    : SITE_CONFIG.shipping.standardShippingFee;
-}, [subtotal, cart.length]);
-
-const total = useMemo(() => {
-  return Math.max(
-    0,
-    subtotal -
-      discountAmount +
-      shippingFee
-  );
-}, [
-  subtotal,
-  discountAmount,
-  shippingFee,
-]);
-
-const totalCartItems = useMemo(() => {
-  return cart.reduce(
-    (sum, item) =>
-      sum + item.quantity,
-    0
-  );
-}, [cart]);
-
-// --------------------------------------------------
-// Coupons
-// --------------------------------------------------
-
-const [coupons, setCoupons] =
-  useState<Coupon[]>([]);
-
-const applyCoupon = async (
-  code: string
-): Promise<boolean> => {
-  try {
-    const response: any =
-      await apiFetch('/coupons/validate', {
-        method: 'POST',
-        body: JSON.stringify({
-          code: code.trim().toUpperCase(),
-          cartTotal: subtotal,
-        }),
-      });
-
-    const coupon =
-      response?.coupon ||
-      response?.data ||
-      response;
-
-    setAppliedCoupon(coupon);
-
-    const percentage = Number(
-      coupon.discountPercentage ??
-        coupon.discountPercent ??
-        0
-    );
-
-    addToast(
-      'Coupon Applied',
-      `${percentage}% discount applied to your order!`
-    );
-
-    return true;
-  } catch (error: any) {
-    addToast(
-      'Invalid Coupon',
-      error.message ||
-        'Coupon is not valid.',
-      'error'
-    );
-
-    return false;
-  }
-};
-
-const removeCoupon = () => {
-  setAppliedCoupon(null);
-
-  addToast(
-    'Coupon Removed',
-    'Coupon discount has been removed.',
-    'info'
-  );
-};
-
-const addCoupon = async (
-  coupon: Coupon
-) => {
-  try {
-    const response: any =
-      await apiFetch('/coupons', {
-        method: 'POST',
-        body: JSON.stringify(coupon),
-      });
-
-    const createdCoupon =
-      response?.coupon ||
-      response?.data ||
-      response;
-
-    setCoupons((prev) => [
-      ...prev,
-      createdCoupon,
-    ]);
-
-    addToast(
-      'Coupon Created',
-      `Code ${createdCoupon.code} is now active.`
-    );
-  } catch (error: any) {
-    addToast(
-      'Coupon Error',
-      error.message ||
-        'Unable to create coupon.',
-      'error'
-    );
-  }
-};
-
-const toggleCouponStatus = async (
-  code: string
-) => {
-  try {
-    await apiFetch(
-      `/coupons/${code}/toggle`,
-      {
-        method: 'PATCH',
+        setCoupons((prev) =>
+          prev.map((coupon) =>
+            coupon.code === code
+              ? {
+                  ...coupon,
+                  isActive:
+                    !coupon.isActive,
+                }
+              : coupon
+          )
+        );
+      } catch (error: any) {
+        addToast(
+          'Coupon Error',
+          error.message ||
+            'Unable to update coupon.',
+          'error'
+        );
       }
-    );
-
-    setCoupons((prev) =>
-      prev.map((coupon) =>
-        coupon.code === code
-          ? {
-              ...coupon,
-              isActive:
-                !coupon.isActive,
-            }
-          : coupon
-      )
-    );
-  } catch (error: any) {
-    addToast(
-      'Coupon Error',
-      error.message ||
-        'Unable to update coupon.',
-      'error'
-    );
-  }
-};
+    };
 
   // --------------------------------------------------
   // Wishlist
@@ -1184,7 +1555,9 @@ const toggleCouponStatus = async (
   const isInWishlist = (
     productId: string
   ) => {
-    return wishlist.includes(productId);
+    return wishlist.includes(
+      productId
+    );
   };
 
   const toggleWishlist = (
@@ -1198,7 +1571,8 @@ const toggleCouponStatus = async (
     ) {
       setWishlist((prev) =>
         prev.filter(
-          (id) => id !== productId
+          (id) =>
+            id !== productId
         )
       );
 
@@ -1229,7 +1603,8 @@ const toggleCouponStatus = async (
   ) => {
     setWishlist((prev) =>
       prev.filter(
-        (id) => id !== productId
+        (id) =>
+          id !== productId
       )
     );
 
@@ -1240,34 +1615,39 @@ const toggleCouponStatus = async (
     );
   };
 
- const moveToCartFromWishlist = async (
-  product: Product,
-  size?: string,
-  color?: ProductColor
-): Promise<void> => {
-  const selectedSize =
-    size ||
-    product.sizes?.[0] ||
-    'M';
+  const moveToCartFromWishlist =
+    async (
+      product: Product,
+      size?: string,
+      color?: ProductColor
+    ): Promise<void> => {
+      const selectedSize =
+        size ||
+        product.sizes?.[0] ||
+        'M';
 
-  const selectedColor =
-    color ||
-    product.colors?.[0] || {
-      name: 'Default',
-      hex: '#000000',
+      const selectedColor =
+        color ||
+        product.colors?.[0] || {
+          name: 'Default',
+          hex: '#000000',
+        };
+
+      const success =
+        await addToCart(
+          product,
+          selectedSize,
+          selectedColor,
+          1
+        );
+
+      if (success) {
+        removeFromWishlist(
+          product.id
+        );
+      }
     };
 
-  const success = await addToCart(
-    product,
-    selectedSize,
-    selectedColor,
-    1
-  );
-
-  if (success) {
-    removeFromWishlist(product.id);
-  }
-};
   // --------------------------------------------------
   // Orders
   // --------------------------------------------------
@@ -1275,8 +1655,12 @@ const toggleCouponStatus = async (
   const [orders, setOrders] =
     useState<Order[]>([]);
 
-  const [lastCreatedOrder, setLastCreatedOrder] =
-    useState<Order | null>(null);
+  const [
+    lastCreatedOrder,
+    setLastCreatedOrder,
+  ] = useState<Order | null>(
+    null
+  );
 
   const createOrder = async (
     orderData: {
@@ -1289,37 +1673,49 @@ const toggleCouponStatus = async (
   ): Promise<Order | null> => {
     try {
       const response: any =
-        await apiFetch('/orders', {
-          method: 'POST',
-          body: JSON.stringify({
-            customerName:
-              orderData.customerName,
-            customerEmail:
-              orderData.customerEmail,
-            customerPhone:
-              orderData.customerPhone,
-            shippingAddress:
-              orderData.shippingAddress,
-            paymentMethod:
-              orderData.paymentMethod,
-            items: cart.map(
-              (item) => ({
-                productId:
-                  item.productId,
-                quantity:
-                  item.quantity,
-                size:
-                  item.selectedSize ||
-                  item.size,
-                color:
-                  item.selectedColor ||
-                  item.color,
-              })
-            ),
-            couponCode:
-              appliedCoupon?.code,
-          }),
-        });
+        await apiFetch(
+          '/orders',
+          {
+            method: 'POST',
+            body: JSON.stringify({
+              customerName:
+                orderData.customerName,
+
+              customerEmail:
+                orderData.customerEmail,
+
+              customerPhone:
+                orderData.customerPhone,
+
+              shippingAddress:
+                orderData.shippingAddress,
+
+              paymentMethod:
+                orderData.paymentMethod,
+
+              items: cart.map(
+                (item) => ({
+                  productId:
+                    item.productId,
+
+                  quantity:
+                    item.quantity,
+
+                  size:
+                    item.selectedSize ||
+                    item.size,
+
+                  color:
+                    item.selectedColor ||
+                    item.color,
+                })
+              ),
+
+              couponCode:
+                appliedCoupon?.code,
+            }),
+          }
+        );
 
       const order =
         response?.order ||
@@ -1331,9 +1727,11 @@ const toggleCouponStatus = async (
         ...prev,
       ]);
 
-      setLastCreatedOrder(order);
+      setLastCreatedOrder(
+        order
+      );
 
-     await clearCart();
+      await clearCart();
 
       addToast(
         'Order Placed',
@@ -1360,59 +1758,64 @@ const toggleCouponStatus = async (
     return createOrder({
       customerName:
         shippingAddress.fullName,
+
       customerEmail:
         shippingAddress.email ||
         currentUser?.email ||
         '',
+
       customerPhone:
         shippingAddress.phone,
+
       shippingAddress,
+
       paymentMethod,
     });
   };
 
-  const updateOrderStatus = async (
-    orderId: string,
-    status: OrderStatus
-  ) => {
-    try {
-      const response: any =
-        await apiFetch(
-          `/orders/${orderId}/status`,
-          {
-            method: 'PATCH',
-            body: JSON.stringify({
-              status,
-            }),
-          }
+  const updateOrderStatus =
+    async (
+      orderId: string,
+      status: OrderStatus
+    ) => {
+      try {
+        const response: any =
+          await apiFetch(
+            `/orders/${orderId}/status`,
+            {
+              method: 'PATCH',
+              body: JSON.stringify({
+                status,
+              }),
+            }
+          );
+
+        const updatedOrder =
+          response?.order ||
+          response?.data ||
+          response;
+
+        setOrders((prev) =>
+          prev.map((order) =>
+            order.id === orderId
+              ? updatedOrder
+              : order
+          )
         );
 
-      const updatedOrder =
-        response?.order ||
-        response?.data ||
-        response;
-
-      setOrders((prev) =>
-        prev.map((order) =>
-          order.id === orderId
-            ? updatedOrder
-            : order
-        )
-      );
-
-      addToast(
-        'Status Updated',
-        `Order #${orderId} status set to ${status}.`
-      );
-    } catch (error: any) {
-      addToast(
-        'Update Failed',
-        error.message ||
-          'Unable to update order.',
-        'error'
-      );
-    }
-  };
+        addToast(
+          'Status Updated',
+          `Order #${orderId} status set to ${status}.`
+        );
+      } catch (error: any) {
+        addToast(
+          'Update Failed',
+          error.message ||
+            'Unable to update order.',
+          'error'
+        );
+      }
+    };
 
   const getOrderById = (
     orderId: string
@@ -1427,32 +1830,38 @@ const toggleCouponStatus = async (
   // Auth
   // --------------------------------------------------
 
-  
-
   useEffect(() => {
     const token =
-      localStorage.getItem('token');
+      localStorage.getItem(
+        'token'
+      );
 
     if (!token) {
       return;
     }
 
-    const loadUser = async () => {
-      try {
-        const response: any =
-          await apiFetch('/auth/me');
+    const loadUser =
+      async () => {
+        try {
+          const response: any =
+            await apiFetch(
+              '/auth/me'
+            );
 
-        const user =
-          response?.user ||
-          response?.data ||
-          response;
+          const user =
+            response?.user ||
+            response?.data ||
+            response;
 
-        setCurrentUser(user);
-      } catch (error) {
-        localStorage.removeItem('token');
-        setCurrentUser(null);
-      }
-    };
+          setCurrentUser(user);
+        } catch (error) {
+          localStorage.removeItem(
+            'token'
+          );
+
+          setCurrentUser(null);
+        }
+      };
 
     loadUser();
   }, []);
@@ -1463,13 +1872,16 @@ const toggleCouponStatus = async (
   ): Promise<boolean> => {
     try {
       const response: any =
-        await apiFetch('/auth/login', {
-          method: 'POST',
-          body: JSON.stringify({
-            email,
-            password,
-          }),
-        });
+        await apiFetch(
+          '/auth/login',
+          {
+            method: 'POST',
+            body: JSON.stringify({
+              email,
+              password,
+            }),
+          }
+        );
 
       const token =
         response?.token ||
@@ -1494,7 +1906,9 @@ const toggleCouponStatus = async (
 
       addToast(
         'Welcome Back',
-        `Signed in as ${user?.name || email}`
+        `Signed in as ${
+          user?.name || email
+        }`
       );
 
       return true;
@@ -1518,15 +1932,18 @@ const toggleCouponStatus = async (
   ): Promise<boolean> => {
     try {
       const response: any =
-        await apiFetch('/auth/register', {
-          method: 'POST',
-          body: JSON.stringify({
-            name,
-            email,
-            password,
-            phone,
-          }),
-        });
+        await apiFetch(
+          '/auth/register',
+          {
+            method: 'POST',
+            body: JSON.stringify({
+              name,
+              email,
+              password,
+              phone,
+            }),
+          }
+        );
 
       const token =
         response?.token ||
@@ -1579,103 +1996,126 @@ const toggleCouponStatus = async (
     );
   };
 
-  const updateUserProfile = async (
-    updated: Partial<User>
-  ) => {
-    if (!currentUser) {
-      return;
-    }
+  const updateUserProfile =
+    async (
+      updated: Partial<User>
+    ) => {
+      if (!currentUser) {
+        return;
+      }
 
-    try {
-      setCurrentUser((prev) =>
-        prev
-          ? {
-              ...prev,
-              ...updated,
-            }
-          : null
-      );
+      try {
+        setCurrentUser(
+          (prev) =>
+            prev
+              ? {
+                  ...prev,
+                  ...updated,
+                }
+              : null
+        );
+
+        addToast(
+          'Profile Updated',
+          'Your details have been saved.'
+        );
+      } catch (error: any) {
+        addToast(
+          'Update Failed',
+          error.message ||
+            'Unable to update profile.',
+          'error'
+        );
+      }
+    };
+
+  const addSavedAddress =
+    async (
+      address: Address
+    ) => {
+      if (!currentUser) {
+        return;
+      }
+
+      const addresses = [
+        ...(currentUser.savedAddresses ||
+          []),
+        address,
+      ];
+
+      await updateUserProfile({
+        savedAddresses:
+          addresses,
+      });
 
       addToast(
-        'Profile Updated',
-        'Your details have been saved.'
+        'Address Saved',
+        `${address.city}, ${address.state} added.`
       );
-    } catch (error: any) {
+    };
+
+  const removeSavedAddress =
+    async (
+      index: number
+    ) => {
+      if (!currentUser) {
+        return;
+      }
+
+      const addresses = (
+        currentUser.savedAddresses ||
+        []
+      ).filter(
+        (_, i) =>
+          i !== index
+      );
+
+      await updateUserProfile({
+        savedAddresses:
+          addresses,
+      });
+
       addToast(
-        'Update Failed',
-        error.message ||
-          'Unable to update profile.',
-        'error'
+        'Address Removed',
+        'Address removed from your profile.',
+        'info'
       );
-    }
-  };
-
-  const addSavedAddress = async (
-    address: Address
-  ) => {
-    if (!currentUser) {
-      return;
-    }
-
-    const addresses = [
-      ...(currentUser.savedAddresses ||
-        []),
-      address,
-    ];
-
-    await updateUserProfile({
-      savedAddresses: addresses,
-    });
-
-    addToast(
-      'Address Saved',
-      `${address.city}, ${address.state} added.`
-    );
-  };
-
-  const removeSavedAddress = async (
-    index: number
-  ) => {
-    if (!currentUser) {
-      return;
-    }
-
-    const addresses = (
-      currentUser.savedAddresses ||
-      []
-    ).filter(
-      (_, i) => i !== index
-    );
-
-    await updateUserProfile({
-      savedAddresses: addresses,
-    });
-
-    addToast(
-      'Address Removed',
-      'Address removed from your profile.',
-      'info'
-    );
-  };
+    };
 
   // --------------------------------------------------
   // UI
   // --------------------------------------------------
 
-  const [quickViewProduct, setQuickViewProduct] =
-    useState<Product | null>(null);
+  const [
+    quickViewProduct,
+    setQuickViewProduct,
+  ] = useState<Product | null>(
+    null
+  );
 
-  const [sizeGuideOpen, setSizeGuideOpen] =
-    useState(false);
+  const [
+    sizeGuideOpen,
+    setSizeGuideOpen,
+  ] = useState(false);
 
-  const [cartDrawerOpen, setCartDrawerOpen] =
-    useState(false);
+  const [
+    cartDrawerOpen,
+    setCartDrawerOpen,
+  ] = useState(false);
 
-  const [searchModalOpen, setSearchModalOpen] =
-    useState(false);
+  const [
+    searchModalOpen,
+    setSearchModalOpen,
+  ] = useState(false);
 
-  const [mobileMenuOpen, setMobileMenuOpen] =
-    useState(false);
+  const [
+    mobileMenuOpen,
+    setMobileMenuOpen,
+  ] = useState(false);
+
+  // --------------------------------------------------
+  // Provider
+  // --------------------------------------------------
 
   return (
     <ShopContext.Provider
@@ -1732,6 +2172,7 @@ const toggleCouponStatus = async (
         currentUser,
         isAuthenticated:
           !!currentUser,
+
         login,
         signup,
         logout,
