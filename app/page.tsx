@@ -1,69 +1,134 @@
-import Image from "next/image";
+'use client';
+import React from 'react';
+import { ShopProvider, useShop } from '../context/shopcontext';
+import { AnnouncementBar } from '../components/announcement';
+import { Navbar } from '../components/navbar';
+import { MobileDrawer } from '../components/mobiledrawer';
+import { SearchModal } from '../components/searchmodel'
+import { CartDrawer } from '../components/cardrawer';
+import { QuickViewModal } from '../components/quickview';
+import { SizeGuideModal } from '../components/size';
+import { ToastContainer } from '../components/toast';
+import { Footer } from '../components/footer';
+import { WhatsAppButton } from '../components/whatsapp';
 
-export default function Home() {
+// Pages
+import { HomePage } from '../components/homepage';
+import { ShopPage } from '../components/shoppage';
+import { CategoryPage } from '../components/category';
+import { ProductDetailPage } from '../components/productpage';
+import { CheckoutPage } from '../components/checkout';
+import { OrderSuccessPage } from '../components/ordersucess';
+import { AuthPage } from '../components/authpage';
+import { AccountPage } from '../components/accountpage';
+import { OrdersPage } from '../components/orderpage';
+import { WishlistPage } from '../components/wishlist';
+import { AdminPage } from '../components/adminpage';
+
+const AppContent: React.FC = () => {
+  const { currentPath } = useShop();
+
+  // Router renderer
+  const renderCurrentPage = () => {
+    // 1. Home
+    if (currentPath === '/' || currentPath === '/home' || currentPath === '') {
+      return <HomePage />;
+    }
+
+    // 2. Shop all
+    if (currentPath.startsWith('/shop')) {
+      return <ShopPage />;
+    }
+
+    // 3. Departments
+    if (currentPath.startsWith('/men')) {
+      return <CategoryPage gender="men" />;
+    }
+    if (currentPath.startsWith('/women')) {
+      return <CategoryPage gender="women" />;
+    }
+    if (currentPath.startsWith('/kids')) {
+      return <CategoryPage gender="kids" />;
+    }
+
+    // 4. Product Details /product/:slug
+    if (currentPath.startsWith('/product/')) {
+      const slug = currentPath.replace('/product/', '').split('?')[0];
+      return <ProductDetailPage slug={slug} />;
+    }
+
+    // 5. Checkout & Order Success
+    if (currentPath.startsWith('/checkout')) {
+      return <CheckoutPage />;
+    }
+    if (currentPath.startsWith('/order-success')) {
+      return <OrderSuccessPage />;
+    }
+
+    // 6. User Auth & Account
+    if (currentPath.startsWith('/login')) {
+      return <AuthPage initialMode="login" />;
+    }
+    if (currentPath.startsWith('/signup')) {
+      return <AuthPage initialMode="signup" />;
+    }
+    if (currentPath.startsWith('/account')) {
+      return <AccountPage />;
+    }
+    if (currentPath.startsWith('/orders')) {
+      return <OrdersPage />;
+    }
+    if (currentPath.startsWith('/wishlist')) {
+      return <WishlistPage />;
+    }
+
+    // 7. Admin Panel
+    if (currentPath.startsWith('/admin')) {
+      return <AdminPage />;
+    }
+
+    // Default Fallback to HomePage
+    return <HomePage />;
+  };
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
+    <div className="min-h-screen flex flex-col bg-[#FAF9F6] text-[#1A1A1A] antialiased selection:bg-[#1A1A1A] selection:text-white">
+      {/* Top Banner */}
+      <AnnouncementBar />
+
+      {/* Main Sticky Navbar */}
+      <Navbar />
+
+      {/* Page Body View */}
+      <main className="flex-1 w-full">
+        {renderCurrentPage()}
       </main>
+
+      {/* Global Luxury Footer */}
+      <Footer />
+
+      {/* Overlays, Drawers & Modals */}
+      <MobileDrawer />
+      <SearchModal />
+      <CartDrawer />
+      <QuickViewModal />
+      <SizeGuideModal />
+      <ToastContainer />
+
+      {/* Floating Concierge WhatsApp Button */}
+      <WhatsAppButton
+        productName="General Concierge Assistance"
+        price={0}
+        variant="floating"
+      />
     </div>
+  );
+};
+
+export default function App() {
+  return (
+    <ShopProvider>
+      <AppContent />
+    </ShopProvider>
   );
 }
