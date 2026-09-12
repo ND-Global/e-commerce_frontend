@@ -190,15 +190,13 @@ export const CartDrawer: React.FC = () => {
     navigate(`/product/${item.product.slug}`);
   }}
 >
-  
-                >
-                  <img
-                    src={getImageUrl(item.product.images?.[0])}
-                    alt={item.product.name}
-                    referrerPolicy="no-referrer"
-                    className="w-full h-full object-cover object-center hover:scale-105 transition-transform"
-                </div>
-
+  <img
+    src={getImageUrl(item.product.images?.[0])}
+    alt={item.product.name}
+    referrerPolicy="no-referrer"
+    className="w-full h-full object-cover object-center hover:scale-105 transition-transform"
+  />
+</div>
                 {/* Details */}
                 <div className="flex-1 flex flex-col justify-between min-w-0">
                   <div>
