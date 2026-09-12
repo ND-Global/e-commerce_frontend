@@ -145,7 +145,56 @@ const [country, setCountry] = useState(user?.address?.country || 'United States'
 const handlePlaceOrder = async (e: React.FormEvent) => {
   e.preventDefault();
 
-  if (!shippingAddress || !paymentMethod) return;
+  const errors: string[] = [];
+
+  if (!email.trim() || !email.includes('@')) {
+    errors.push('Valid email address');
+  }
+
+  if (!phone.trim()) {
+    errors.push('Contact phone number');
+  }
+
+  if (!firstName.trim() || !lastName.trim()) {
+    errors.push('First and Last name');
+  }
+
+  if (!street.trim()) {
+    errors.push('Street delivery address');
+  }
+
+  if (!city.trim()) {
+    errors.push('City');
+  }
+
+  if (!postalCode.trim()) {
+    errors.push('Postal / ZIP code');
+  }
+
+  if (errors.length > 0) {
+    setFormErrors(errors);
+
+    addToast(
+      'Missing Details',
+      `Please provide: ${errors.join(', ')}`,
+      'error'
+    );
+
+    return;
+  }
+
+  setFormErrors([]);
+
+  const shippingAddress: Address = {
+    fullName: `${firstName} ${lastName}`,
+    phone,
+    street,
+    apartment,
+    city,
+    state: state || 'NY',
+    postalCode,
+    country,
+  };
 
   setIsProcessing(true);
 
@@ -158,6 +207,12 @@ const handlePlaceOrder = async (e: React.FormEvent) => {
     if (!order) return;
 
     navigate(`/order-success?id=${order.id}`);
+  } catch (error: any) {
+    addToast(
+      'Order Failed',
+      error?.message || 'Unable to place order.',
+      'error'
+    );
   } finally {
     setIsProcessing(false);
   }
